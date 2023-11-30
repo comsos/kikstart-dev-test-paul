@@ -1,0 +1,65 @@
+{{ 'collection-tabs.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+
+%}
+<div class="container page-width" id="button-tags">
+  {% for block in section.blocks %}
+    <button class="items-space button-tag" data-handle="{{block.settings.collection.handle}}">{{ block.settings.collection.title }}</button>
+  {% endfor %}
+</div>
+<script>
+  const buttonTag = document.querySelectorAll(".button-tag")
+  buttonTag.forEach((button) => {
+    button.addEventListener("click", () => {
+      const handle = button.dataset.handle
+      const searchParams = new URLSearchParams(window.location.search)
+      let newUrl = window.location.origin + `/collections/${handle}`
+      if (searchParams.toString().length > 1) {
+        newUrl = newUrl + '?' + searchParams.toString()
+      }
+      window.history.pushState({
+        path: newUrl
+      }, document.title, newUrl)
+
+      return replaceDOM(newUrl)
+    })
+  })
+
+  const replaceDOM = (fetchUrl) => {
+    const mainContent = document.getElementById('MainContent')
+    const buttonTags = document.getElementById('button-tags')
+    return fetch(fetchUrl).then((response) => response.text()).then((responseText) => {
+      const parsedHTML = new DOMParser().parseFromString(responseText, 'text/html')
+      const newMainContent = parsedHTML.getElementById('MainContent')
+      const newButtonTags = newMainContent.querySelector('#button-tags')
+      newButtonTags.replaceChildren(...Array.from(buttonTags.children))
+      mainContent.replaceChildren(...Array.from(newMainContent.children))
+    })
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "Collection Tabs",
+    "blocks": [
+      {
+        "name": "collection",
+        "type": "collection",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection",
+            "label": "Collection"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Collection Tabs",
+        "category": "Text"
+      }
+    ]
+  }
+{% endschema %}
