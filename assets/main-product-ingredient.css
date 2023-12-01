@@ -134,7 +134,7 @@
     padding: 40px 40px 40px;
     border: 1px solid #888;
     border-radius: 60px;
-    width: 50%;
+    width: 70%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 0.4s;
@@ -194,6 +194,12 @@
     }
     .modal h1{
         width: relative;
+    }
+}
+
+@media (max-width: 320px) {
+    .modal-content h1{
+        height: 60px;
     }
 }
 

@@ -265,8 +265,9 @@
                 </details>
               </div>
               {%- when 'quantity_selector' -%}
-                <div
-                id="Quantity-Form-{{ section.id }}"class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"{{ block.shopify_attributes }}>
+                <div id="Quantity-Form-{{ section.id }}"
+                class="product-form__input product-form__quantity{% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_vertical_offset < 0 %} product-form__quantity-top{% endif %}"
+                {{ block.shopify_attributes }}>
                 {% comment %} TODO: enable theme-check once `item_count_for_variant` is accepted as valid filter {% endcomment %}
                 {% # theme-check-disable %}
                 {%- assign cart_qty = cart | item_count_for_variant: product.selected_or_first_available_variant.id -%}
@@ -686,13 +687,13 @@
         
 
 
-        const hiddenInput = document.querySelector('#                                                                    {{ product_form_id }} input[name="id"]');
+        const hiddenInput = document.querySelector('#                                                                     {{ product_form_id }} input[name="id"]');
         const noScriptInputWrapper = document.createElement('div');
-        const variantSwitcher = document.querySelector('variant-radios[data-section="                                                                    {{ section.id }} "]') || document.querySelector('variant-selects[data-section="                                                                    {{ section.id }} "]');
-        noScriptInputWrapper.innerHTML = document.querySelector('.product-form__noscript-wrapper-                                                                    {{ section.id }}').textContent;
+        const variantSwitcher = document.querySelector('variant-radios[data-section="                                                                     {{ section.id }} "]') || document.querySelector('variant-selects[data-section="                                                                     {{ section.id }} "]');
+        noScriptInputWrapper.innerHTML = document.querySelector('.product-form__noscript-wrapper-                                                                     {{ section.id }}').textContent;
         variantSwitcher.outerHTML = noScriptInputWrapper.outerHTML;
 
-        document.querySelector('#Variants-                                                                    {{ section.id }}').addEventListener('change', function(event) {
+        document.querySelector('#Variants-                                                                     {{ section.id }}').addEventListener('change', function(event) {
           hiddenInput.value = event.currentTarget.value;
         });
       });
@@ -709,8 +710,8 @@
     <script type="application/ld+json">
       {
       "@context": "http://schema.org/",
-                                                                                                                                                                                                                                                                                                                                                                                                                              "@type": "Product",
-                                                                                                                                                                                                                                                                                                                                                                                                                              "name": {{ product.title | json }},
+                                                                                                                                                                                                                                                                                                                                                                                                                                    "@type": "Product",
+                                                                                                                                                                                                                                                                                                                                                                                                                                    "name": {{ product.title | json }},
       "url": {{ request.origin | append: product.url | json }},
       {% if seo_media -%}
         "image": [
@@ -723,7 +724,7 @@
       {%- endif %}
       "brand": {
       "@type": "Brand",
-                                                                                                                                                                                                                                                                                                                                                                                                                                "name": {{ product.vendor | json }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                      "name": {{ product.vendor | json }}
       },
       "offers": [
       {%- for variant in product.variants -%}
@@ -784,7 +785,7 @@
           <div class="top-content">
             <img class="image-class " src="{{  image_url.value | image_url }}">
             <div class="inner-text">
-              <h1>{{ metaobject.name }}</h1>
+              <h1>{{ metaobject.display_name }}</h1>
               <p>{{ metaobject.name }}</p>
               <h4>{{ other_info }}</h4>
             </div>
