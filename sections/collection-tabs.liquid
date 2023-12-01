@@ -3,12 +3,14 @@
 {%- liquid
 
 %}
-<div class="container page-width" id="button-tags">
+<span class="dropdown" id="dropdown-tag">--Collections--</span>
+<div class="container page-width collection-buttons" id="button-tags">
   {% for block in section.blocks %}
-    <button class="items-space button-tag" data-handle="{{block.settings.collection.handle}}">{{ block.settings.collection.title }}</button>
+    <span class="items-space span-class button-tag" data-handle="{{block.settings.collection.handle}}">{{ block.settings.collection.title }}</span>
   {% endfor %}
 </div>
 <script>
+  let dropDownShown = false
   const buttonTag = document.querySelectorAll(".button-tag")
   buttonTag.forEach((button) => {
     button.addEventListener("click", () => {
@@ -22,6 +24,7 @@
         path: newUrl
       }, document.title, newUrl)
 
+      dropDownShown = false
       return replaceDOM(newUrl)
     })
   })
@@ -29,14 +32,32 @@
   const replaceDOM = (fetchUrl) => {
     const mainContent = document.getElementById('MainContent')
     const buttonTags = document.getElementById('button-tags')
+    const dropdownTag = document.getElementById("dropdown-tag")
     return fetch(fetchUrl).then((response) => response.text()).then((responseText) => {
       const parsedHTML = new DOMParser().parseFromString(responseText, 'text/html')
       const newMainContent = parsedHTML.getElementById('MainContent')
       const newButtonTags = newMainContent.querySelector('#button-tags')
+      const newdropdownTags = newMainContent.querySelector('#dropdown-tag')
+      newdropdownTags.replaceWith(dropdownTag)
       newButtonTags.replaceChildren(...Array.from(buttonTags.children))
       mainContent.replaceChildren(...Array.from(newMainContent.children))
     })
   }
+
+  const dropdownTag = document.querySelectorAll(".dropdown")
+  dropdownTag.forEach((span) => {
+    span.addEventListener("click", () => {
+      const containerTag = document.getElementById('button-tags')
+      if (dropDownShown === false) {
+        containerTag.style.display = "flex"
+        dropDownShown = true
+      } else if (dropDownShown === true) {
+        containerTag.style.display = "none"
+        dropDownShown = false
+      }
+
+    })
+  })
 </script>
 
 {% schema %}

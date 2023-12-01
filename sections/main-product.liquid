@@ -1,4 +1,4 @@
-{{ 'collection-tabs.css' | asset_url | stylesheet_tag }}
+{{ 'main-product-ingredient.css' | asset_url | stylesheet_tag }}
 <section
   id="MainProduct-{{ section.id }}"
   class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}"
@@ -686,13 +686,13 @@
         
 
 
-        const hiddenInput = document.querySelector('#                                      {{ product_form_id }} input[name="id"]');
+        const hiddenInput = document.querySelector('#                                                                    {{ product_form_id }} input[name="id"]');
         const noScriptInputWrapper = document.createElement('div');
-        const variantSwitcher = document.querySelector('variant-radios[data-section="                                      {{ section.id }} "]') || document.querySelector('variant-selects[data-section="                                      {{ section.id }} "]');
-        noScriptInputWrapper.innerHTML = document.querySelector('.product-form__noscript-wrapper-                                      {{ section.id }}').textContent;
+        const variantSwitcher = document.querySelector('variant-radios[data-section="                                                                    {{ section.id }} "]') || document.querySelector('variant-selects[data-section="                                                                    {{ section.id }} "]');
+        noScriptInputWrapper.innerHTML = document.querySelector('.product-form__noscript-wrapper-                                                                    {{ section.id }}').textContent;
         variantSwitcher.outerHTML = noScriptInputWrapper.outerHTML;
 
-        document.querySelector('#Variants-                                      {{ section.id }}').addEventListener('change', function(event) {
+        document.querySelector('#Variants-                                                                    {{ section.id }}').addEventListener('change', function(event) {
           hiddenInput.value = event.currentTarget.value;
         });
       });
@@ -709,8 +709,8 @@
     <script type="application/ld+json">
       {
       "@context": "http://schema.org/",
-                                                                                                                                                                                                                                          "@type": "Product",
-                                                                                                                                                                                                                                          "name": {{ product.title | json }},
+                                                                                                                                                                                                                                                                                                                                                                                                                              "@type": "Product",
+                                                                                                                                                                                                                                                                                                                                                                                                                              "name": {{ product.title | json }},
       "url": {{ request.origin | append: product.url | json }},
       {% if seo_media -%}
         "image": [
@@ -723,7 +723,7 @@
       {%- endif %}
       "brand": {
       "@type": "Brand",
-                                                                                                                                                                                                                                            "name": {{ product.vendor | json }}
+                                                                                                                                                                                                                                                                                                                                                                                                                                "name": {{ product.vendor | json }}
       },
       "offers": [
       {%- for variant in product.variants -%}
@@ -751,24 +751,77 @@
       }
     </script>
   </div>
-  <div class="page-width">
-    <h1>Ingredients</h1>
-  </div>
-  <div class="page-width container outer">
-    <div class="row">
-      {% for metaobject in product.metafields.product.product_ingredient.value %}
-        {% assign brief_description = metaobject.brief_description | metafield_tag %}
-        {% assign image_url = metaobject.image %}
-        <div class="card">
-          <img class="image-class " src="{{  image_url.value | image_url }}">
-          <h4>{{ metaobject.display_name }}</h4>
-          <p>{{ brief_description }}</p>
-          <a href="#" class="btn">Learn More</a>
+  {% if product.metafields.product.product_ingredient.value %}
+    <div class="container">
+      <div class="inner-container">
+        <h1>KEY INGREDIENTS</h1>
+        <div class="row">
+          {% for metaobject in product.metafields.product.product_ingredient.value %}
+            {% if metaobject.enable == true %}
+              {% assign brief_description = metaobject.brief_description | metafield_tag %}
+              {% assign image_url = metaobject.image %}
+              <div class="card">
+                <img class="image-class " src="{{  image_url.value | image_url }}">
+                <h2>{{ metaobject.display_name }}</h2>
+                <p>{{ brief_description }}</p>
+                <span data-handle="{{metaobject.display_name}}" class=" span-class button-tag">Learn More</span>
+              </div>
+            {% endif %}
+          {% endfor %}
         </div>
-
-      {% endfor %}
+      </div>
     </div>
-  </div>
+  {% endif %}
+
+  {% for metaobject in product.metafields.product.product_ingredient.value %}
+    {% assign main_description = metaobject.main_description | metafield_tag %}
+    {% assign other_info = metaobject.other_info | metafield_tag %}
+    {% assign image_url = metaobject.image %}
+    <div class="modal" id="{{metaobject.display_name}}">
+      <div class="modal-content">
+        <div class="modal-body">
+          <span class="close" id="close-tag">×</span>
+          <div class="top-content">
+            <img class="image-class " src="{{  image_url.value | image_url }}">
+            <div class="inner-text">
+              <h1>{{ metaobject.name }}</h1>
+              <p>{{ metaobject.name }}</p>
+              <h4>{{ other_info }}</h4>
+            </div>
+          </div>
+          <p>{{ main_description }}</p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  <script>
+
+    let currModal = ""
+    let currHandle = ""
+    const buttonTag = document.querySelectorAll(".button-tag")
+    buttonTag.forEach((button) => {
+      button.addEventListener("click", () => {
+        const handle = button.dataset.handle
+        const modal = document.getElementById(handle)
+        currModal = modal
+        currHandle = handle
+        modal.style.display = "block"
+      })
+    })
+
+    const spanTag = document.querySelectorAll("#close-tag")
+    spanTag.forEach((span) => {
+      span.addEventListener("click", () => {
+        currModal.style.display = "none"
+      })
+    })
+
+    window.onclick = function(event) {
+      if (event.target == currModal) {
+        currModal.style.display = "none";
+      }
+    }
+  </script>
 </section>
 
 {% schema %}

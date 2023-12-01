@@ -3,29 +3,29 @@
     "106508ff-2349-43d7-a291-58054345f774": {
       "type": "collection-tabs",
       "blocks": {
-        "5ab02cf1-bace-4b6d-911c-f4b410a27314": {
+        "b657e9ad-3d39-4c5c-a877-ff16891a2067": {
           "type": "collection",
           "settings": {
-            "collection": "automated-collection"
+            "collection": "all"
           }
         },
-        "6477f368-dd6f-4d3e-93de-9fe27994e4a3": {
+        "13924165-53b0-40c5-b0b4-b3fb7ee9e75d": {
           "type": "collection",
           "settings": {
-            "collection": "frontpage"
+            "collection": "accessory"
           }
         },
-        "d01e86a2-0eb8-4b8a-9645-d9a56f43aaf2": {
+        "e745f8ee-7780-4cbc-bab4-121fe866a898": {
           "type": "collection",
           "settings": {
-            "collection": "hydrogen"
+            "collection": "best-selling"
           }
         }
       },
       "block_order": [
-        "5ab02cf1-bace-4b6d-911c-f4b410a27314",
-        "6477f368-dd6f-4d3e-93de-9fe27994e4a3",
-        "d01e86a2-0eb8-4b8a-9645-d9a56f43aaf2"
+        "b657e9ad-3d39-4c5c-a877-ff16891a2067",
+        "13924165-53b0-40c5-b0b4-b3fb7ee9e75d",
+        "e745f8ee-7780-4cbc-bab4-121fe866a898"
       ],
       "settings": {
       }
